@@ -72,7 +72,6 @@ function Footer() {
             <Typography sx={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>Telepon</Typography>
             <Typography sx={{ color: '#fff', fontSize: 16, fontWeight: 300 }}>(021) 7445537</Typography>
 
-            {/* Visitor Counter */}
             <Typography sx={{ color: '#fff', fontSize: 14, fontWeight: 300, marginTop: 1 }}>
               {visitorCount !== null ? `Pengunjung: ${visitorCount}` : 'Memuat...'}
             </Typography>
