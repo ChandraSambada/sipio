@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, Typography } from '@mui/material';
+import { Container, Grid, Typography, Box } from '@mui/material';
 import logoPuskemasPamulang from '../assets/images/footer/logoPuskesmasPamulang.png';
 import LogoTangSel from '../assets/images/footer/LogoTangSel.png';
 import LogoKemenkes from '../assets/images/footer/LogoKemenkes.png';
@@ -8,82 +8,64 @@ function Footer() {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
-    // Masukkan script auth
-    const authScript = document.createElement('script');
-    authScript.src = 'https://www.freevisitorcounters.com/auth.php?id=aeb965cec5b295c7a2f20653ff9ba88ec414eaca';
-    authScript.async = true;
-    document.body.appendChild(authScript);
-  
-    // Masukkan script counter
-    const counterScript = document.createElement('script');
-    counterScript.src = 'https://www.freevisitorcounters.com/en/home/counter/1371590/t/6';
-    counterScript.async = true;
-    document.body.appendChild(counterScript);
-  
-    // Optional: Cleanup jika component unmount
-    return () => {
-      document.body.removeChild(authScript);
-      document.body.removeChild(counterScript);
-    };
+    fetch('http://localhost:3001/track', {
+      method: 'POST',
+    })
+      .then(res => res.json())
+      .then(data => {
+        setVisitorCount(data.count);
+      })
+      .catch(err => {
+        console.error('Failed to fetch visitor count:', err);
+      });
   }, []);
-  
-  
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        height: 184,
-        width: '100%',
-        backgroundColor: 'rgba(34, 72, 112, 1)',
-        justifyContent: 'center',
-      }}
-    >
-      <Container xl lg sx={{ paddingTop: '37px' }}>
-        <Grid container spacing={2}>
-          <Grid>
-            <div
-              style={{
-                backgroundColor: '#fff',
-                width: 179,
-                height: 78,
-                borderRadius: 15,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
+    <Box sx={{ backgroundColor: 'rgba(34, 72, 112, 1)', py: 4 }}>
+      <Container maxWidth="lg">
+        <Grid container alignItems="center" justifyContent="space-between" spacing={2}>
+          
+          {/* Logo Kiri */}
+          <Grid item xs={12} sm={2} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ backgroundColor: '#fff', width: 179, height: 78, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <img src={logoPuskemasPamulang} height="80" alt="Logo Puskesmas" />
-            </div>
+            </Box>
           </Grid>
 
-          <Grid container xl lg direction="column" sx={{ display: 'flex', paddingLeft: '50px' }}>
-            <Typography sx={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>Alamat</Typography>
+          {/* Alamat */}
+          <Grid item xs={12} sm={4}>
+            <Typography sx={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>Alamat</Typography>
             <Typography sx={{ color: '#fff', fontSize: 16, fontWeight: 300, lineHeight: 1.4 }}>
-              Jl. Surya Kencana No.1, Pamulang Barat,
-              <br />
-              Kec. Pamulang, Kota Tangerang
-              <br />
+              Jl. Surya Kencana No.1, Pamulang Barat,<br />
+              Kec. Pamulang, Kota Tangerang<br />
               Selatan, Banten 15417
             </Typography>
           </Grid>
 
-          <Grid container xl lg direction="column" sx={{ display: 'flex', paddingLeft: '50px' }}>
-            <Typography sx={{ color: '#fff', fontSize: 20, fontWeight: 700 }}>Telepon</Typography>
-            <Typography sx={{ color: '#fff', fontSize: 16, fontWeight: 300 }}>(021) 7445537</Typography>
-
-            <Typography sx={{ color: '#fff', fontSize: 14, fontWeight: 300, marginTop: 1 }}>
-              {visitorCount !== null ? `Pengunjung: ${visitorCount}` : 'Memuat...'}
+          {/* Telepon */}
+          <Grid item xs={12} sm={4}>
+            <Typography sx={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>Telepon</Typography>
+            <Typography sx={{ color: '#fff', fontSize: 16, fontWeight: 300 }}>
+              (021) 7445537
             </Typography>
           </Grid>
 
-          <Grid>
-            <img src={LogoTangSel} height="75" alt="Logo Kota Tangsel" style={{ marginLeft: 200 }} />
-            <img src={LogoKemenkes} height="75" alt="Logo Kemenkes" style={{ marginLeft: 10 }} />
+          {/* Visitor Count */}
+          <Grid item xs={12} sm={4}>
+            <Typography sx={{ color: '#fff', fontSize: 18, fontWeight: 700 }}>Pengunjung</Typography>
+            <Typography sx={{ color: '#fff', fontSize:  15, fontWeight: 200 }}>
+              {visitorCount !== null ? visitorCount : 'Memuat...'}
+            </Typography>
+          </Grid>
+
+          {/* Logo Kanan */}
+          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+            <img src={LogoTangSel} height="60" alt="Logo Kota Tangsel" />
+            <img src={LogoKemenkes} height="60" alt="Logo Kemenkes" />
           </Grid>
         </Grid>
       </Container>
-    </div>
+    </Box>
   );
 }
 
