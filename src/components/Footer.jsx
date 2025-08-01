@@ -8,7 +8,7 @@ function Footer() {
   const [visitorCount, setVisitorCount] = useState(null);
 
   useEffect(() => {
-    fetch('http://localhost:3001/track', {
+    fetch('https://visitor-counter-backend-production.up.railway.app/track', {
       method: 'POST',
     })
       .then(res => res.json())
@@ -19,6 +19,7 @@ function Footer() {
         console.error('Failed to fetch visitor count:', err);
       });
   }, []);
+  
 
   return (
     <Box sx={{ backgroundColor: 'rgba(34, 72, 112, 1)', py: 4 }}>

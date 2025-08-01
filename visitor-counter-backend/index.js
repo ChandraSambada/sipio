@@ -10,6 +10,11 @@ app.use(express.json());
 
 const VISITOR_FILE = './visitors.json';
 
+// Tambahan ini 👇
+app.get('/', (req, res) => {
+  res.send('Visitor Counter API is running');
+});
+
 // Load data IP dari file
 let visitors = new Set();
 if (fs.existsSync(VISITOR_FILE)) {
